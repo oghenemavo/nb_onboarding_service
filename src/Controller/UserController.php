@@ -28,10 +28,15 @@ class UserController extends AbstractController
     #[Route('/users', name: 'create_user', methods: ['POST'])]
     public function create(Request $request)
     {
-        $requestBody = json_decode($request->getContent());
+        // $requestBody = json_decode($request->getContent());
 
-        // write to log file
-        file_put_contents('users.log', print_r($request->getContent(), true) . PHP_EOL, FILE_APPEND);
+        // store user data
+        $store = file_put_contents('users_store.log', print_r($request->getContent(), true) . PHP_EOL, FILE_APPEND);
+
+        if ($store) {
+            // send notification
+            file_put_contents('notifications.log', print_r($request->getContent(), true) . PHP_EOL, FILE_APPEND);
+        }
     }
 
 }
